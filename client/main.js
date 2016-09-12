@@ -1,0 +1,69 @@
+import { Template } from 'meteor/templating';
+// import { ReactiveVar } from 'meteor/reactive-var';
+
+import './main.html';
+import './components/jiraQueryMonitor.html'
+
+/*Template.hello.onCreated(function() {
+  // counter starts at 0
+  this.counter = new ReactiveVar(0);
+});
+
+Template.hello.helpers({
+  counter() {
+    return Template.instance().counter.get();
+  },
+});
+
+Template.hello.events({
+  'click button'(event, instance) {
+    // increment the counter when button is clicked
+    instance.counter.set(instance.counter.get() + 1);
+  },
+});*/
+
+/*Template.jiraQueryMonitor.helpers({
+  response: function () {
+    return Session.get('response');
+  }
+});*/
+
+Template.jiraQueryMonitor.onCreated(function() {
+    // get jql filter from the dom, and when the query ends, update the dom...
+    //var ip = tpl.find('input#ipv4').value;
+    var url = 'https://jira.atlassian.com';
+    var jql = '';
+    var elementId = 'jiraQueryMonitor1'
+    Meteor.call('searchInJira', url, jql, function (err, data) {
+      // The method call sets the Session variable to the callback value
+      if (err) {
+        console.error(err);
+      } else {
+        console.log(data);
+
+        //var countIssuesPerPriority = function(data)
+        var issuesPerPriority = {};
+        for (const it of data.issues) {
+          var priority = it.fields.priority;
+          if (issuesPerPriority[priority.id])
+            issuesPerPriority[priority.id].count++;
+          else
+            issuesPerPriority[priority.id] = {name: priority.name, count: 1};
+        }
+
+        var p = document.getElementById(elementId);
+
+        var html = '';
+        for (const prop in issuesPerPriority) {
+          html += issuesPerPriority[prop].name + ': ' + issuesPerPriority[prop].count + '<br>'
+        }
+        p.innerHTML = html;
+        if (issuesPerPriority[1])
+          p.className = "label label-danger";
+        else if (issuesPerPriority[2])
+          p.className = "label label-warning";
+        else if (issuesPerPriority[3])
+          p.className = "label label-info";
+      }
+    });
+});
