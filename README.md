@@ -2,7 +2,7 @@
 
 Meteor-monitor is a sample application to show how to pick data from external apis to generate a dashboard.
 
-Let's say we want to monitor some jira issues which correspond to a some filters, we can get something the following pictures :
+Let's say we want to monitor some jira issues based on some filters, we can get something like the following picture :
 
 ![sample_dashboard](./sample_dashboard.png "sample_dashboard")
 
@@ -19,7 +19,7 @@ To run the application, you need first to install meteor : https://www.meteor.co
 and open your browser to http://localhost:3000/
 
 
-## First steps :
+## First steps
 
 In client/main.js, define the filters you want to monitor :
 
@@ -48,12 +48,12 @@ In client/main.html, define the main template :
       </div>
     </body>
 
-## To do :
+## To do
 
 - handdle jira authentification
 - implement jenkins connector
 
-## Resources :
+## Resources
 https://www.meteor.com/tutorials/blaze/creating-an-app
 https://www.discovermeteor.com/blog/a-guide-to-meteor-templates-data-contexts/
 https://dzone.com/articles/integrating-external-apis-your
