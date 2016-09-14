@@ -48,6 +48,10 @@ In client/main.html, define the main template :
       </div>
     </body>
 
+In client/components/jiraQueryMonitor.js, define the url for your jira instance :
+
+    var jiraUrl = 'https://jira.atlassian.com';
+
 ## To do
 
 - handdle jira authentification
