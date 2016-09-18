@@ -21,18 +21,18 @@ and open your browser to http://localhost:3000/
 
 ## First steps
 
-In client/main.js, define the filters you want to monitor :
+In `client/main.js`, define the filters you want to monitor:
 
     Template.body.helpers({
       jiraQueryMonitors: [
-        { id: 'product1', title: 'product A', jql: 'priority = Medium' },
-        { id: 'product2', title: 'product B', jql: '' },
-        { id: 'product3', title: 'product C', jql: 'priority in (High, Medium)' },
-        { id: 'product4', title: 'product D', jql: 'priority in (Medium, Low)' }
+        { id: 'product1', title: 'product A', jql: 'product = "product A"' },
+        { id: 'product2', title: 'product B', jql: 'product = "product B"' },
+        { id: 'product3', title: 'product C', jql: 'product = "product C"' },
+        { id: 'product4', title: 'product D', jql: 'product = "product D"' }
       ],
     });
 
-In client/main.html, define the main template :
+In `client/main.html`, define the main template:
 
     <head>
       <title>meteor-monitor</title>
@@ -48,13 +48,12 @@ In client/main.html, define the main template :
       </div>
     </body>
 
-In client/components/jiraQueryMonitor.js, define the url for your jira instance :
+In `server/jira-connector.js`, define the url for your jira instance:
 
     var jiraUrl = 'https://jira.atlassian.com';
 
 ## To do
 
-- handdle jira authentification
 - implement jenkins connector
 
 ## Resources
