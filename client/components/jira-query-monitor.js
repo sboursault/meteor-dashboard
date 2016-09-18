@@ -43,11 +43,11 @@ Template.jiraQueryMonitor.display = function(monitorEl, nbrOfIssuesPerPriority) 
   for (const prop in nbrOfIssuesPerPriority) {
     html += nbrOfIssuesPerPriority[prop].name + ': ' + nbrOfIssuesPerPriority[prop].count + '<br>'
   }
-  monitorEl.innerHTML = html;
+  monitorEl.innerHTML = html ? html : "No issues";
   if (nbrOfIssuesPerPriority[1])
     monitorEl.className = "monitor monitor-danger";
   else if (nbrOfIssuesPerPriority[2])
     monitorEl.className = "monitor monitor-warning";
-  else if (nbrOfIssuesPerPriority[3])
+  else
     monitorEl.className = "monitor monitor-success";
 };

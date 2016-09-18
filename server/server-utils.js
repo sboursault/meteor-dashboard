@@ -1,26 +1,23 @@
-
 import { Meteor } from 'meteor/meteor';
 
 export const ServerUtils = {
 
-  apiCall: function (request, callback) {
+  apiCall: function (url, options, callback) {
 
-    // TODO : assert request.url is not null
+    if (!url)
+      throw 'url is mandatory';
 
-    if (!request.url)
-      throw 'request.url is mandatory';
-
-    console.log('GET ' + request);
     // try…catch allows you to handle errors
     try {
-      var response = HTTP.get(request.url).data;
+      var response = HTTP.get(url, options).data;
       // Return the contents from the JSON response
       callback(null, response);
     } catch (error) {
       // If the API responded with an error message and a payload
+      //console.log('ERROR: ' + JSON.stringify(error, null, 4));
       if (error.response) {
-        var errorCode = error.response.data.code;
-        var errorMessage = error.response.data.message;
+        var errorCode = error.response.statusCode;
+        var errorMessage = error.response.content;
       // Otherwise use a generic error message
       } else {
         var errorCode = 500;
@@ -28,6 +25,7 @@ export const ServerUtils = {
       }
       // Create an Error object and return it via callback
       var myError = new Meteor.Error(errorCode, errorMessage);
+      console.log('ERROR ' + errorCode + ': ' + errorMessage);
       callback(myError, null);
     }
 
