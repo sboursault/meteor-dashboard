@@ -2,17 +2,17 @@
 
 Meteor-dashboard is a sample application to show how to pick data from external apis to generate a dashboard.
 
-Let's say we want to monitor some jira issues based on some filters, we can get something like the following picture :
+The code base generates a dashboard to monitor the number of jira issues opened on some specific features (or products).
 
 ![sample_dashboard](./sample_dashboard.png "sample_dashboard")
 
-Meteor-dashboard is based on https://www.meteor.com/ (Many thanks Captain Obvious !)
+Meteor-dashboard is based on https://www.meteor.com/ (No link with the 1979 movie).
 
 ## Run metor-monitor
 
 To run the application, you need first to install meteor : https://www.meteor.com/install
 
-    git clone
+    git clone https://github.com/sboursault/meteor-dashboard.git
     cd meteor-dashboard
     meteor
 
@@ -57,7 +57,11 @@ In `server/jira-connector.js`, define the url for your jira instance:
 - implement jenkins connector
 
 ## Resources
-https://www.meteor.com/tutorials/blaze/creating-an-app
-https://www.discovermeteor.com/blog/a-guide-to-meteor-templates-data-contexts/
-https://dzone.com/articles/integrating-external-apis-your
-https://docs.atlassian.com/jira/REST/cloud/
+
+- https://www.meteor.com/tutorials/blaze/creating-an-app
+
+- https://www.discovermeteor.com/blog/a-guide-to-meteor-templates-data-contexts/
+
+- https://dzone.com/articles/integrating-external-apis-your
+
+- https://docs.atlassian.com/jira/REST/cloud/
