@@ -1,13 +1,8 @@
-import { Meteor } from 'meteor/meteor';
 
 export const ServerUtils = {
-
   apiCall: function (url, options, callback) {
-
     if (!url)
       throw 'url is mandatory';
-
-    // try…catch allows you to handle errors
     try {
       var response = HTTP.get(url, options).data;
       // Return the contents from the JSON response
@@ -28,7 +23,6 @@ export const ServerUtils = {
       console.log('ERROR ' + errorCode + ': ' + errorMessage);
       callback(myError, null);
     }
-
   }
 };
 

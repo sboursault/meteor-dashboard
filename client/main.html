@@ -7,7 +7,11 @@
     <h1 class="page-header">Issues detected</h1>
     <div class="row">
       {{#each jiraQueryMonitors}}
-        {{> jiraQueryMonitor}}
+        <div class="col-xs-4 col-sm-4 col-md-3">
+          <h2>{{{title}}}</h2>
+          <p id="{{id}}" class="well"></p>
+          {{refreshMonitor}}
+        </div>
       {{/each}}
     </div>
   </div>
