@@ -21,7 +21,7 @@ function JqlMonitorData(data) {
       for (const prop in this.nbrOfIssuesPerPriority) {
         html += this.nbrOfIssuesPerPriority[prop].name + ': ' + this.nbrOfIssuesPerPriority[prop].count + '<br>';
       }
-      return html;
+      return html || 'No issues';
     }).call(this);
   this.temperature =
     (function() {

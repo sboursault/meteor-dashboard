@@ -13,6 +13,6 @@ Template.body.helpers({
     { id: 'product4', title: 'product D', jql: 'priority in (Medium, Low)' }
   ],
   refreshMonitor: function() {
-    JqlMonitorUi.refresh(this.id, this.jql);
+    JqlMonitorUi.refresh(this.monitorId, jiraUrl, this.jql);
   }
 });

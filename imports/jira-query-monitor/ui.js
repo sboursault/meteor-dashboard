@@ -1,9 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 
-const jiraUrl = 'https://jira.atlassian.com';
 
 export const JqlMonitorUi = {
-  refresh: function(monitorId, jql) {
+  refresh: function(monitorId, jiraUrl, jql) {
     console.log('search in jira with "' + jql + '" (' + monitorId + ')');
     /*p.addEventListener("receivedJqlResults", function(e) {
         if (e.monitorId === this.id) {

@@ -4,8 +4,19 @@
   margin: 20px 0 10px;
 }
 
+.flexrow {
+  /*display: inline-block;
+  vertical-align: middle;
+  float: none;*/
+  display:flex;
+  justify-contents:center;
+  align-items: end;
+  flex-wrap: wrap;
+}
+
 h2 {
   text-align: center;
+  margin: 10px;
 }
 
 .monitor {
@@ -15,15 +26,10 @@ h2 {
   padding: 1em;
   height: 7.4em;
   width: 100%;
-
-  /*background-color: #f5f5f5;*/
   border: 1px solid #e3e3e3;
   border-radius: 10px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
-  margin-bottom: 20px;
   min-height: 20px;
-  /*padding: 19px;*/
-
   color: #fff;
   font-size: 1.4em;
   font-weight: 700;
