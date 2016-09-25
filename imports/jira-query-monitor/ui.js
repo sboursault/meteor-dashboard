@@ -8,7 +8,7 @@ export const JqlMonitorUi = {
         if (e.monitorId === this.id) {
         }
     })*/
-    Meteor.call('searchInJira', jiraUrl, jql, function onComplete(err, jqlMonitorData) {
+    Meteor.call('jira.search', jiraUrl, jql, function onComplete(err, jqlMonitorData) {
       if (err) {
         console.error(err);
       } else {
@@ -17,6 +17,7 @@ export const JqlMonitorUi = {
         var monitorEl = document.getElementById(monitorId);
         monitorEl.innerHTML = jqlMonitorData.asHtml;
         monitorEl.className = 'monitor monitor-' + jqlMonitorData.temperature;
+        monitorEl.setAttribute('title', jqlMonitorData.issueKeys.toString());
       }
     });
   }

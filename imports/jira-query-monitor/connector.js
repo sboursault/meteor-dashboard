@@ -1,49 +1,68 @@
 import { Meteor } from 'meteor/meteor';
 import { ServerUtils } from '../utils/server-utils.js';
 
+const httpGetOptions = {};
+
 function JqlMonitorData(data) {
-  this.nbrOfIssuesPerPriority =
+  const nbrOfIssuesPerPriority =
     (function() {
       var nbrOfIssuesPerPriority = {}, priority;
       for (const it of data.issues) {
         priority = it.fields.priority;
         if (nbrOfIssuesPerPriority[priority.id])
-          nbrOfIssuesPerPriority[priority.id].count++;
+          nbrOfIssuesPerPriority[priority.id].issues.push(it.key);
         else
-          nbrOfIssuesPerPriority[priority.id] = {name: priority.name, count: 1};
+          nbrOfIssuesPerPriority[priority.id] = {name: priority.name, issues: [it.key]};
       }
       return nbrOfIssuesPerPriority;
-    }).call(this);
+    })();
   this.asHtml =
     (function() {
-    console.log(this.nbrOfIssuesPerPriority);
       var html = '';
-      for (const prop in this.nbrOfIssuesPerPriority) {
-        html += this.nbrOfIssuesPerPriority[prop].name + ': ' + this.nbrOfIssuesPerPriority[prop].count + '<br>';
+      for (const prop in nbrOfIssuesPerPriority) {
+        html += '<span>';
+        html += nbrOfIssuesPerPriority[prop].name + ': ' + nbrOfIssuesPerPriority[prop].issues.length;
+        html += '<span/><br>';
       }
       return html || 'No issues';
-    }).call(this);
+    })();
   this.temperature =
     (function() {
-      if (this.nbrOfIssuesPerPriority[2])
+      if (nbrOfIssuesPerPriority[2])
         return 'danger';
-      else if (this.nbrOfIssuesPerPriority[3])
+      else if (nbrOfIssuesPerPriority[3])
         return 'warning';
       else
         return 'ok';
-    }).call(this);
+    })();
+  this.issueKeys =
+    (function() {
+      var keys = [];
+      for (const it of data.issues) {
+        keys.push(it.key)
+      }
+      return keys;
+    })();
 }
 
 Meteor.methods({
-  // The method expects a valid IPv4 address
-  'searchInJira': function (url, jql) {
+  'jira.search': function (url, jql) {
     this.unblock(); // avoid blocking other method calls from the same client
-    console.log('Method.searchInJira for' + jql);
-    var url = url + '/rest/api/2/search/?maxResults=10&jql=' + (jql ? encodeURIComponent(jql) : '');
-    var options = {};
-    // options.auth = '<user>:<password>';
-    var response = Meteor.wrapAsync(ServerUtils.apiCall)(url, options);
+    console.log('jira.search: "' + jql + '"');
+    jql = encodeURIComponent((jql || '') + ' order by priority');
+    url += '/rest/api/2/search/?maxResults=20&jql=' + jql;
+    var response = Meteor.wrapAsync(ServerUtils.apiCall)(url, httpGetOptions);
     return new JqlMonitorData(response);
+  },
+  'jira.versions': function(url, project, regex) {
+    this.unblock(); // avoid blocking other method calls from the same client
+    console.log('jira.versions: "' + project + ' (regex: /' + regex + '/)"');
+    url += '/rest/api/2/project/' + project + '/versions';
+    var response = Meteor.wrapAsync(ServerUtils.apiCall)(url, httpGetOptions);
+    var versionNames = response.map(
+      function keepOnlyVersionName(version) {return version.name}
+    )/*.filter()*/;
+    return versionNames.filter(function (name) { return name.match(new RegExp(regex)) });
   }
 });
 
