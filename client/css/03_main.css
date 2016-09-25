@@ -2,6 +2,10 @@
 
 .page-header {
   margin: 20px 0 10px;
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 2px solid #dddddd;
+  padding-left: 30px;
 }
 
 .flexrow {
