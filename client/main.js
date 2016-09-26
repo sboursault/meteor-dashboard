@@ -30,11 +30,12 @@ Template.body.onRendered(function () {
             });
           console.log('found matching versions: ' + versions.toString());
           baseFilter = (baseFilter || '') + ' AND affectedVersion in (' + versions.toString() + ')';
-          window.dispatchEvent(new CustomEvent('jqlMonitor:affectsVersion:update', {}));
-          console.log('jqlBaseFilter:affectsVersion:update triggered');
+          window.dispatchEvent(new CustomEvent('jiraQueryMonitor:baseFilter:update', {}));
         }
       }
     );
+  } else {
+    window.dispatchEvent(new CustomEvent('jiraQueryMonitor:baseFilter:update', {}));
   }
 })
 
@@ -48,13 +49,9 @@ Template.body.helpers({
   refreshMonitor: function() {
     var jiraQueryMonitor = this;
     var monitorId = jiraQueryMonitor.monitorId, jql = jiraQueryMonitor.jql;
-    if (affectsVersionParam) {
-      window.addEventListener('jqlMonitor:affectsVersion:update', function () {
-        JqlMonitorUi.refresh(monitorId, jiraUrl, baseFilter + ( jql ? ' and ' + jql : ''));
-      });
-    } else {
+    window.addEventListener('jiraQueryMonitor:baseFilter:update', function () {
       JqlMonitorUi.refresh(monitorId, jiraUrl, baseFilter + ( jql ? ' and ' + jql : ''));
-    }
+    });
   },
 });
 
