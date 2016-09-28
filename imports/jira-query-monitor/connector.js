@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { ServerUtils } from '../utils/server-utils.js';
 
-const httpGetOptions = {};
+const httpGetOptions = {/*auth: '<user>:<passwd>'*/};
 
 function JqlMonitorData(data) {
   const nbrOfIssuesPerPriority =
@@ -28,9 +28,9 @@ function JqlMonitorData(data) {
     })();
   this.temperature =
     (function() {
-      if (nbrOfIssuesPerPriority[2])
+      if (nbrOfIssuesPerPriority[1])
         return 'danger';
-      else if (nbrOfIssuesPerPriority[3])
+      else if (nbrOfIssuesPerPriority[2] || nbrOfIssuesPerPriority[3])
         return 'warning';
       else
         return 'ok';
@@ -61,7 +61,7 @@ Meteor.methods({
     var response = Meteor.wrapAsync(ServerUtils.apiCall)(url, httpGetOptions);
     var versionNames = response.map(
       function keepOnlyVersionName(version) {return version.name}
-    )/*.filter()*/;
+    );
     return versionNames.filter(function (name) { return name.match(new RegExp(regex)) });
   }
 });

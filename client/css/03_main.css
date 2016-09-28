@@ -8,13 +8,17 @@
   padding-left: 30px;
 }
 
+.page-footer {
+  color: #888888;
+  padding-left: 30px;
+  text-align: center;
+}
+
+
 .flexrow {
-  /*display: inline-block;
-  vertical-align: middle;
-  float: none;*/
   display:flex;
   justify-contents:center;
-  align-items: end;
+  align-items: flex-end;
   flex-wrap: wrap;
 }
 
