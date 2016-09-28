@@ -10,15 +10,18 @@ const jiraProject = ''
 var baseFilter = 'resolution = Unresolved';
 
 const jiraQueryMonitorArray = [
-  { monitorId: 'product1', title: 'product A', jql: 'assignee="copain"' },
-  { monitorId: 'product2', title: 'product B', jql: 'priority in (Low)' },
-  { monitorId: 'product3', title: 'product C', jql: 'priority in (High, Medium)' },
-  { monitorId: 'product4', title: 'product D', jql: 'priority in (Medium, Low)' }
+  { id: 'product1', title: 'product A', jql: 'assignee="copain"' },
+  { id: 'product2', title: 'product B', jql: 'priority in (Low)' },
+  { id: 'product3', title: 'product C', jql: 'priority in (High, Medium)' },
+  { id: 'product4', title: 'product D', jql: 'priority in (Medium, Low)' }
 ];
 
 Template.body.onRendered(function () {
   (function() {
-    var monitorRequisites = ['affectedVersion'];
+    var monitorRequisites = [];
+    if (affectsVersionParam && jiraProject) { // TODO:DRY
+      monitorRequisites.push('affectedVersion');
+    }
     window.addEventListener('jiraQueryMonitor:baseFilter:update', function (e) {
       monitorRequisites._remove_(e.detail);
       if (monitorRequisites.length === 0) {
@@ -27,9 +30,9 @@ Template.body.onRendered(function () {
     });
   })();
 
-  if (affectsVersionParam) {
+  if (affectsVersionParam && jiraProject) {
     var regex = affectsVersionParam.replace('.', '\\.') + '(\\D.*)?$';
-    Meteor.call('jira.versions', jiraUrl, jiraProject, regex,
+    Meteor.call('jira.versions', jiraUrl, jiraProject, regex, // TODO:delegate part of this to ui.js
       function onComplete(err, versions) {
         if (err) {
           console.error(err);
