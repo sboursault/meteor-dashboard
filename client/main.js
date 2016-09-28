@@ -29,21 +29,12 @@ Template.body.onRendered(function () {
       }
     });
   })();
-
   if (affectsVersionParam && jiraProject) {
-    var regex = affectsVersionParam.replace('.', '\\.') + '(\\D.*)?$';
-    Meteor.call('jira.versions', jiraUrl, jiraProject, regex, // TODO:delegate part of this to ui.js
-      function onComplete(err, versions) {
-        if (err) {
-          console.error(err);
-        } else {
-          versions = (versions || []).map(function(version) { return '"' + version + '"' });
-          console.log('found matching versions: ' + versions.toString());
-          baseFilter = (baseFilter || '') + ' AND affectedVersion in (' + versions.toString() + ')';
-          window.dispatchEvent(new CustomEvent('jiraQueryMonitor:baseFilter:update', {detail: 'affectedVersion'}));
-        }
-      }
-    );
+    JqlMonitorUi.fetchMatchingVersions(jiraUrl, jiraProject, affectsVersionParam,
+      function onSuccess(versions) {
+        baseFilter = (baseFilter || '') + ' and ' + JqlMonitorUi.createFilterAffectsVersion(versions);
+        window.dispatchEvent(new CustomEvent('jiraQueryMonitor:baseFilter:update', {detail: 'affectedVersion'}));
+      });
   } else {
     window.dispatchEvent(new CustomEvent('jiraQueryMonitor:baseFilter:update', {}));
   }
@@ -57,7 +48,7 @@ Template.body.helpers({
     return jiraQueryMonitorArray;
   },
   runMonitor: function() {
-    var jiraQueryMonitor = this;
+    const jiraQueryMonitor = this;
     window.addEventListener('jiraQueryMonitor:baseFilter:complete', function () {
       const filter = baseFilter + (jiraQueryMonitor.jql ? (' and ' + jiraQueryMonitor.jql) : '');
       JqlMonitorUi.refresh(jiraQueryMonitor.id, jiraUrl, filter);
