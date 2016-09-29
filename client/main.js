@@ -4,17 +4,25 @@ import { JqlMonitorUi } from '../imports/jira-query-monitor/ui.js';
 
 import './main.html';
 
+// jiraUrl is the url of your jira instance
 const jiraUrl = 'https://jira.atlassian.com';
-const affectsVersionParam = ClientUtils.getUrlParams()['affectsVersion'];
-const jiraProject = ''
+
+// baseFilter will serve as a prefix for all your seearch queries
 var baseFilter = 'resolution = Unresolved';
 
+// jiraQueryMonitorArray defines the filters you want to monitor
 const jiraQueryMonitorArray = [
   { id: 'product1', title: 'product A', jql: 'assignee="copain"' },
   { id: 'product2', title: 'product B', jql: 'priority in (Low)' },
   { id: 'product3', title: 'product C', jql: 'priority in (High, Medium)' },
   { id: 'product4', title: 'product D', jql: 'priority in (Medium, Low)' }
 ];
+
+// affectsVersionParam is used to add a an 'affectedVersion' criteria to the baseFilter.
+// this parameter is optional.
+const affectsVersionParam = ClientUtils.getUrlParams()['affectsVersion'];
+// jiraProject is required to use the affectsVersionParam
+const jiraProject = ''
 
 Template.body.onRendered(function () {
   (function() {

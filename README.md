@@ -21,36 +21,33 @@ and open your browser to http://localhost:3000/
 
 ## First steps
 
-In `client/main.js`, define the filters you want to monitor:
+In `client/main.js`, define the url for your jira instance and the filters you want to monitor:
 
-    Template.body.helpers({
-      jiraQueryMonitors: [
-        { id: 'product1', title: 'product A', jql: 'product = "product A"' },
-        { id: 'product2', title: 'product B', jql: 'product = "product B"' },
-        { id: 'product3', title: 'product C', jql: 'product = "product C"' },
-        { id: 'product4', title: 'product D', jql: 'product = "product D"' }
-      ],
-    });
+    const jiraUrl = 'https://jira.atlassian.com';
+    
+    const jiraQueryMonitorArray = [
+      { id: 'product1', title: 'product A', jql: 'assignee="copain"' },
+      { id: 'product2', title: 'product B', jql: 'priority in (Low)' },
+      { id: 'product3', title: 'product C', jql: 'priority in (High, Medium)' },
+      { id: 'product4', title: 'product D', jql: 'priority in (Medium, Low)' }
+    ];
 
 In `client/main.html`, define the main template:
 
-    <head>
-      <title>My dashboard</title>
-    </head>
-    <body>
-      <div class="container theme-showcase" role="main">
-        <h1 class="page-header">Issues detected</h1>
-        <div class="row">
-          {{#each jiraQueryMonitors}}
-            {{> jiraQueryMonitor}}
-          {{/each}}
+    <h1 class="page-header">Issues detected {{ affectsVersion }}</h1>
+    <div class="flexrow">
+      {{#each jiraQueryMonitors }}
+        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+          <h2>{{{ title }}}</h2>
+          <p id="{{id}}" class="well"></p>
+          {{ runMonitor }}
         </div>
-      </div>
-    </body>
+      {{/each}}
+    </div>
 
-In `server/jira-connector.js`, define the url for your jira instance:
+If necessary, you can use a specific account to connect to the jira server. Change the http options `imports/jira-query-monitor/connector.js`:
 
-    var jiraUrl = 'https://jira.atlassian.com';
+    const httpOptions = {/*auth: '<user>:<passwd>'*/};
 
 ## To do
 

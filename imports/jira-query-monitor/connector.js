@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { ServerUtils } from '../utils/server-utils.js';
 
-const httpGetOptions = {/*auth: '<user>:<passwd>'*/};
+const httpOptions = {/*auth: '<user>:<passwd>'*/};
 
 function JqlMonitorData(data) {
   const nbrOfIssuesPerPriority =
@@ -51,14 +51,14 @@ Meteor.methods({
     console.log('jira.search: "' + jql + '"');
     jql = encodeURIComponent((jql || '') + ' order by priority');
     url += '/rest/api/2/search/?maxResults=20&jql=' + jql;
-    var response = Meteor.wrapAsync(ServerUtils.apiCall)(url, httpGetOptions);
+    var response = Meteor.wrapAsync(ServerUtils.apiCall)(url, httpOptions);
     return new JqlMonitorData(response);
   },
   'jira.versions': function(url, project, regex) {
     this.unblock(); // avoid blocking other method calls from the same client
     console.log('jira.versions: "' + project + ' (regex: /' + regex + '/)"');
     url += '/rest/api/2/project/' + project + '/versions';
-    var response = Meteor.wrapAsync(ServerUtils.apiCall)(url, httpGetOptions);
+    var response = Meteor.wrapAsync(ServerUtils.apiCall)(url, httpOptions);
     var versionNames = response.map(
       function keepOnlyVersionName(version) {return version.name}
     );
