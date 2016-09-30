@@ -3,7 +3,7 @@ import { ServerUtils } from '../utils/server-utils.js';
 
 const httpOptions = {/*auth: '<user>:<passwd>'*/};
 
-function JqlMonitorData(data) {
+function JqlMonitorData(url, data) {
   const nbrOfIssuesPerPriority =
     (function() {
       var nbrOfIssuesPerPriority = {}, priority;
@@ -24,7 +24,8 @@ function JqlMonitorData(data) {
         html += nbrOfIssuesPerPriority[prop].name + ': ' + nbrOfIssuesPerPriority[prop].issues.length;
         html += '<span/><br>';
       }
-      return html || 'No issues';
+      const linkHref = url.replace('/rest/api/2/search/', '/issues/').replace(/maxResults=\d+&/i, '')
+      return '<a href="' + linkHref + '">' + (html || '<span>No issues</span>') + '</a>';
     })();
   this.temperature =
     (function() {
@@ -52,7 +53,7 @@ Meteor.methods({
     jql = encodeURIComponent((jql || '') + ' order by priority');
     url += '/rest/api/2/search/?maxResults=20&jql=' + jql;
     var response = Meteor.wrapAsync(ServerUtils.apiCall)(url, httpOptions);
-    return new JqlMonitorData(response);
+    return new JqlMonitorData(url, response);
   },
   'jira.versions': function(url, project, regex) {
     this.unblock(); // avoid blocking other method calls from the same client

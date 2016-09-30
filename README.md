@@ -45,7 +45,7 @@ In `client/main.html`, define the main template:
       {{/each}}
     </div>
 
-If necessary, you can use a specific account to connect to the jira server. Change the http options `imports/jira-query-monitor/connector.js`:
+If necessary, you can use a specific account to connect to the jira server. Set the http in options `imports/jira-query-monitor/connector.js`:
 
     const httpOptions = {/*auth: '<user>:<passwd>'*/};
 
