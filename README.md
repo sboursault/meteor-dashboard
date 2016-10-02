@@ -49,9 +49,13 @@ If necessary, you can use a specific account to connect to the jira server. Set 
 
     const httpOptions = {/*auth: '<user>:<passwd>'*/};
 
-## To do
+## Run tests
 
-- implement jenkins connector
+To run the automatized tests, execute the following command
+
+    meteor test --driver-package practicalmeteor:mocha --port 3100
+    
+and open your browser to http://localhost:3100/
 
 ## Resources
 
