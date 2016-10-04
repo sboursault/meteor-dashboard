@@ -3,12 +3,14 @@ export function JiraQueryMonitorData(url, data) {
   const nbrOfIssuesPerPriority =
     (function() {
       var nbrOfIssuesPerPriority = {}, priority;
-      for (const it of data.issues) {
-        priority = it.fields.priority;
-        if (nbrOfIssuesPerPriority[priority.id])
-          nbrOfIssuesPerPriority[priority.id].issues.push(it.key);
-        else
-          nbrOfIssuesPerPriority[priority.id] = {name: priority.name, issues: [it.key]};
+      if (data.issues) {
+        for (const it of data.issues) {
+          priority = it.fields.priority;
+          if (nbrOfIssuesPerPriority[priority.id])
+            nbrOfIssuesPerPriority[priority.id].issues.push(it.key);
+          else
+            nbrOfIssuesPerPriority[priority.id] = {name: priority.name, issues: [it.key]};
+        }
       }
       return nbrOfIssuesPerPriority;
     })();
