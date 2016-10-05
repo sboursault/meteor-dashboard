@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import { ServerUtils } from '../utils/server-utils.js';
-import { JiraQueryMonitorData } from './jira-query-monitor-data.js';
+import { ServerUtils } from '../../../imports/utils/server-utils.js';
+import { JiraQueryMonitorData } from './monitor-data.js';
 
 const httpOptions = {/*auth: '<user>:<passwd>'*/};
 

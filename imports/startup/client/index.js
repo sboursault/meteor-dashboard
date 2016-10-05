@@ -1,0 +1,1 @@
+import './jira-query-monitor-configuration.js';

@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { expect } from 'meteor/practicalmeteor:chai';
-import { JiraQueryMonitorData } from './jira-query-monitor-data.js';
+import { JiraQueryMonitorData } from './monitor-data.js';
 
 const url = 'http://jira.atlassian.com';
 

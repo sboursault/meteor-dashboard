@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { JiraConnector } from '../imports/jira-query-monitor/connector.js';
+import '../imports/jira-query-monitor/server/connector.js';
 
 Meteor.startup(() => {
   // code to run on server at startup
