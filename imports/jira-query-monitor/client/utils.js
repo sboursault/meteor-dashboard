@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
-export const JqlMonitorUi = {
+export const JqlMonitorUiUtils = {
   refresh: function(monitorId, jiraUrl, jql) {
     console.log('call jira.search with jql: "' + jql + '" (monitor for "' + monitorId + '")');
     Meteor.call('jira.search', jiraUrl, jql, function onComplete(err, jqlMonitorData) {

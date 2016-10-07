@@ -21,7 +21,7 @@ and open your browser to http://localhost:3000/
 
 ## First steps
 
-In `client/main.js`, define the url for your jira instance and the filters you want to monitor:
+In `imports/jira-query-monitor/client/index.js`, define the url for your jira instance and the filters you want to monitor:
 
     const jiraUrl = 'https://jira.atlassian.com';
     
@@ -32,7 +32,7 @@ In `client/main.js`, define the url for your jira instance and the filters you w
       { id: 'product4', title: 'product D', jql: 'priority in (Medium, Low)' }
     ];
 
-In `client/main.html`, define the main template:
+In `imports/jira-query-monitor/client/template.html`, define the main template:
 
     <h1 class="page-header">Issues detected {{ affectsVersion }}</h1>
     <div class="flexrow">
@@ -45,7 +45,7 @@ In `client/main.html`, define the main template:
       {{/each}}
     </div>
 
-If necessary, you can use a specific account to connect to the jira server. Set the http in options `imports/jira-query-monitor/connector.js`:
+If necessary, you can use a specific account to connect to the jira server. Set the http in options `imports/jira-query-monitor/server/connector.js`:
 
     const httpOptions = {/*auth: '<user>:<passwd>'*/};
 

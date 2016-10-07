@@ -1,7 +1,8 @@
 import { Template } from 'meteor/templating';
 import { ClientUtils } from '../../../imports/utils/client-utils.js';
-import { JqlMonitorUi } from '../../../imports/jira-query-monitor/ui.js';
+import { JqlMonitorUiUtils } from './utils.js';
 
+import './template.html';
 
 // jiraUrl is the url of your jira instance
 const jiraUrl = 'https://jira.atlassian.com';
@@ -23,7 +24,7 @@ const affectsVersionParam = ClientUtils.getUrlParams()['affectsVersion'];
 // jiraProject is required to use the affectsVersionParam
 const jiraProject = ''
 
-Template.body.onRendered(function () {
+Template.jiraQueryMonitor.onRendered(function () {
   (function() {
     var monitorRequisites = [];
     if (affectsVersionParam && jiraProject) { // TODO:DRY
@@ -37,9 +38,9 @@ Template.body.onRendered(function () {
     });
   })();
   if (affectsVersionParam && jiraProject) {
-    JqlMonitorUi.fetchMatchingVersions(jiraUrl, jiraProject, affectsVersionParam,
+    JqlMonitorUiUtils.fetchMatchingVersions(jiraUrl, jiraProject, affectsVersionParam,
       function onSuccess(versions) {
-        baseFilter = (baseFilter || '') + ' and ' + JqlMonitorUi.createFilterAffectsVersion(versions);
+        baseFilter = (baseFilter || '') + ' and ' + JqlMonitorUiUtils.createFilterAffectsVersion(versions);
         window.dispatchEvent(new CustomEvent('jiraQueryMonitor:baseFilter:update', {detail: 'affectedVersion'}));
       });
   } else {
@@ -47,7 +48,7 @@ Template.body.onRendered(function () {
   }
 })
 
-Template.body.helpers({
+Template.jiraQueryMonitor.helpers({
   affectsVersion: function() {
     return affectsVersionParam ? ('on ' + affectsVersionParam) : '';
   },
@@ -58,7 +59,7 @@ Template.body.helpers({
     const jiraQueryMonitor = this;
     window.addEventListener('jiraQueryMonitor:baseFilter:complete', function () {
       const filter = baseFilter + (jiraQueryMonitor.jql ? (' and ' + jiraQueryMonitor.jql) : '');
-      JqlMonitorUi.refresh(jiraQueryMonitor.id, jiraUrl, filter);
+      JqlMonitorUiUtils.refresh(jiraQueryMonitor.id, jiraUrl, filter);
     });
   },
   now: function() {

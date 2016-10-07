@@ -1,0 +1,14 @@
+
+<template name="jiraQueryMonitor">
+  <h1 class="page-header">Issues detected {{ affectsVersion }}</h1>
+  <div class="flexrow">
+    {{#each jiraQueryMonitors }}
+      <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+        <h2>{{{ title }}}</h2>
+        <p id="{{id}}" class="well"></p>
+        {{ runMonitor }}
+      </div>
+    {{/each}}
+  </div>
+  <div class="page-footer">Last refresh : {{ now }}</div>
+</template>
