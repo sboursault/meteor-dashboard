@@ -9,7 +9,12 @@ export const JqlMonitorUi = {
       console.log(jqlMonitorData);
       var monitorEl = document.getElementById(monitorId);
       monitorEl.innerHTML = jqlMonitorData.asHtml;
-      monitorEl.className = 'monitor monitor-' + jqlMonitorData.temperature;
+      if(jqlMonitorData.asHtml.indexOf("Minor") !== -1 && jqlMonitorData.temperature == "ok"){
+        monitorEl.className = 'monitor monitor-minor';
+      } else {
+        monitorEl.className = 'monitor monitor-' + jqlMonitorData.temperature;
+      }
+      //monitorEl.className = 'monitor monitor-' + jqlMonitorData.temperature;
       monitorEl.setAttribute('title', jqlMonitorData.issueKeys.toString().replace(',', ', '));
     });
   },
